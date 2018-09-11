@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
     fontFamily: Fonts.PoppinsMedium,
     textAlign: 'right',
     width: 50,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   labelResponse: {
     flex: 2,
-    fontSize: 17,
+    fontSize: 14,
     fontFamily: Fonts.PoppinsLight,
     width: 50,
   }
