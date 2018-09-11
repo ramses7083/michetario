@@ -28,23 +28,19 @@ export default class DetailsView extends Component<Props> {
     this.setState({itemData: itemData})
   }
   render() {
-  const {articulo} = this.state.itemData[0]
-  const {categoria} = this.state.itemData[0]
-  const {marca} = this.state.itemData[0]
-  const {sn} = this.state.itemData[0]
-  const {responsable} = this.state.itemData[0]
+  const {articulo} = this.state.itemData
+  const {descripcion} = this.state.itemData
+  const {sn} = this.state.itemData
+  const {responsable} = this.state.itemData
 
   return (
       <View style={styles.container}>
-        <Image source={require('./assets/scanTab.png')} style={styles.logo} resizeMode="contain"/>
+        <Image source={require('./assets/itemIcon.png')} style={styles.logo} resizeMode="contain"/>
         <View style={styles.textContainer}>
           <Text style={styles.labelText}>Artículo:</Text><Text style={styles.labelResponse}>{articulo}</Text>
         </View> 
         <View style={styles.textContainer}>
-          <Text style={styles.labelText}>Categoria: </Text><Text style={styles.labelResponse}>{categoria}</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.labelText}>Marca: </Text><Text style={styles.labelResponse}>{marca}</Text>
+          <Text style={styles.labelText}>Descripción: </Text><Text style={styles.labelResponse}>{descripcion}</Text>
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.labelText}>S/N: </Text><Text style={styles.labelResponse}>{sn}</Text>

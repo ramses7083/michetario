@@ -13,7 +13,7 @@ import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, Image, Toucha
 import { Fonts } from '../src/utils/Fonts'
 import { Actions } from 'react-native-router-flux'
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from "react-native-camera";
+import { RNCamera as Camera } from "react-native-camera";
 import { getData } from './api-client.js'
 
 type Props = {};
@@ -23,7 +23,7 @@ export default class ScanView extends Component<Props> {
     this.state = {
       modalVisible: false,
       torchText: 'Encender linterna',
-      torchMode: RNCamera.Constants.FlashMode.off,
+      torchMode: Camera.Constants.FlashMode.off,
       itemData: []
     };
   }
@@ -31,30 +31,22 @@ export default class ScanView extends Component<Props> {
     this.setState({modalVisible: visible});
   }
   onSuccess(e) {
-    console.warn(e.data)
-    getData()
+    getData(e.data)
       .then(data =>  Actions.details({itemData: data}))
       .catch((error) => {
         this.setModalVisible(true);
       })
   }
   viewDetails = () => {
-    getData()
-      .then(data =>  Actions.details({itemData: data}))
-      .catch((error) => {
-        this.setModalVisible(true);
-      })
-
-   
-    if (this.state.torchMode == RNCamera.Constants.FlashMode.torch) {
+    if (this.state.torchMode == Camera.Constants.FlashMode.torch) {
             console.warn('Apago linterna')
       this.setState({torchText: 'Encender linterna'})
-      this.setState({torchMode: RNCamera.Constants.FlashMode.off})    
+      this.setState({torchMode: Camera.Constants.FlashMode.off})    
     } else {
       console.warn('Encendio linterna')
-      RNCamera.Constants.FlashMode.torch
+      Camera.Constants.FlashMode.torch
       this.setState({torchText: 'Apagar linterna'})
-      this.setState({torchMode: RNCamera.Constants.FlashMode.torch})
+      this.setState({torchMode: Camera.Constants.FlashMode.torch})
     }
     
   }
@@ -87,10 +79,15 @@ export default class ScanView extends Component<Props> {
         </View>
       </Modal>
       <QRCodeScanner
+        flashMode={this.state.torchMode}
         onRead={this.onSuccess.bind(this)}
+        reactivate={true}
+        reactivateTimeout={4000}
+        showMarker={true}
+        customMarker={<Image source={require('./assets/cuadroBlanco.png')} style={styles.image} resizeMode="contain"/>}
         topContent={
           <Text style={styles.centerText}>
-            Escanea el codigo de barras
+            Escanea el código 
           </Text>
         }
         bottomContent={
@@ -99,9 +96,6 @@ export default class ScanView extends Component<Props> {
           </TouchableOpacity>
         }
       />
-      <RNCamera
-            flashMode={this.state.torchMode}
-        />
       </View>
     );
   }
